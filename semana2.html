@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Práticas para o Ensino de Matemática I - Univesp | Semana 2</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: #eef2f8;
+            padding: 24px 16px;
+            color: #1a2c3e;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           NOVO: BOTÃO FLUTUANTE DE VOLTAR
+        ========================================= */
+        .btn-voltar-fixo {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #1f4e6e;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 9999; /* Garante que fique por cima de tudo */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-voltar-fixo:hover {
+            background: #2c7da0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            color: white;
+        }
+        @media (max-width: 780px) {
+            .btn-voltar-fixo {
+                bottom: 16px;
+                left: 16px;
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ESTILOS DO CABEÇALHO E RODAPÉ */
+        .app-header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding: 0 16px;
+        }
+        .app-header h1 {
+            color: #1f4e6e;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+        .app-header h2 {
+            color: #2c7da0;
+            font-size: 1.15rem;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        .app-footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 24px 16px 16px;
+            font-size: 0.95rem;
+            color: #334155;
+            font-weight: 500;
+        }
+        .app-footer a {
+            color: #1f7a5a;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .app-footer a:hover {
+            color: #145940;
+            text-decoration: underline;
+        }
+
+        /* RESTANTE DO LAYOUT */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .main-panel {
+            flex: 2;
+            min-width: 280px;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 40px; /* Espaço para o botão flutuante não cobrir o conteúdo */
+        }
+
+        .tab-bar {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f1f5f9;
+            border-bottom: 1px solid #cbd5e1;
+            position: relative;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            font-weight: bold;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            color: #334155;
+        }
+        .tab-btn.active {
+            background: white;
+            color: #0f2b3d;
+            border-bottom: 3px solid #2c7da0;
+        }
+        .download-pdf {
+            background: #2c7da0;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 8px 12px 8px auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .download-pdf:hover {
+            background: #1f5e7a;
+            color: white;
+        }
+        .tab-content {
+            padding: 1.8rem;
+            display: none;
+        }
+        .tab-content.active-tab {
+            display: block;
+        }
+
+        /* FLASHCARD 3D */
+        .flashcard-3d {
+            background-color: transparent;
+            width: 100%;
+            min-height: 320px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 1.5rem;
+        }
+        .flashcard-3d.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flash-front, .flash-back {
+            position: absolute;
+            width: 100%;
+            min-height: 320px;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .flash-front {
+            background: #f8fafd;
+            border: 2px solid #e2edf2;
+            color: #1f4e6e;
+        }
+        .flash-back {
+            background: #1f4e6e;
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid #2c7da0;
+        }
+        .flash-sigla {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: monospace;
+        }
+        .flash-desc {
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        .flash-example {
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        .flash-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .flash-nav button, .mode-reset {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .mode-reset {
+            background: #cbd5e1;
+            margin-left: 12px;
+        }
+        .mode-reset:hover, .flash-nav button:hover {
+            background: #b9c3d0;
+        }
+
+        /* QUIZ / ASSOC */
+        .scenario-card {
+            background: #f8fafd;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid #2c7da0;
+            font-size: 1rem;
+            line-height: 1.45;
+            font-weight: 500;
+        }
+        .btn-hint {
+            background: #ffecb3;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 1.5rem 0;
+        }
+        .option-btn {
+            background: white;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 60px;
+            padding: 12px 12px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            word-break: break-word;
+            white-space: normal;
+            line-height: 1.3;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .feedback-area {
+            background: #f1f5f9;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .explanation {
+            display: none;
+            background: #e9f4fe;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+        .next-btn {
+            background: #1f7a5a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 24px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: none;
+            width: 100%;
+        }
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #eef2f5;
+            border-radius: 60px;
+            padding: 10px 18px;
+            margin-top: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* PAINEL TEORIA */
+        .theory-panel {
+            flex: 1.2;
+            min-width: 260px;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .theory-header {
+            background: #1f4e6e;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem 2rem 0 0;
+            font-weight: bold;
+        }
+        .theory-content {
+            padding: 1.2rem 1.5rem;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .concept-card {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 16px;
+            border-left: 4px solid #2c7da0;
+        }
+        .gold-dicas {
+            background: #fef7e0;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 780px) {
+            .app-container { flex-direction: column; }
+            .theory-panel { position: static; max-height: none; }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="btn-voltar-fixo" title="Voltar para a lista de semanas">
+    ⬅️ Voltar ao Menu
+</a>
+
+<header class="app-header">
+    <h1>Práticas para o Ensino de Matemática I - Univesp</h1>
+    <h2>Semana 2 - O professor que ensina matemática hoje e a importância de seus conhecimentos profissionais</h2>
+</header>
+
+<div class="app-container">
+    <div class="main-panel">
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="flash">📇 Flashcards</button>
+            <button class="tab-btn" data-tab="quiz">🎯 Quiz</button>
+            <button class="tab-btn" data-tab="assoc">🔗 Associação</button>
+            <button class="tab-btn" data-tab="comparativo">📊 Acadêmica vs Escolar</button>
+            <a href="SEP401_apostila_semana2.pdf" target="_blank" class="download-pdf" title="Abrir resumo Semana 2 em PDF">📄 Resumo S2 (PDF)</a>
+        </div>
+
+        <div id="tabFlash" class="tab-content active-tab">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button id="resetFlashMode" class="mode-reset">🔄 Reiniciar Flashcards</button>
+            </div>
+            
+            <div class="flashcard-3d" id="flashcard3d">
+                <div class="flashcard-inner">
+                    <div class="flash-front">
+                        <div class="flash-sigla" id="frontSigla">Carregando...</div>
+                        <div class="flash-desc" style="font-size:0.9rem;">Clique para virar</div>
+                    </div>
+                    <div class="flash-back">
+                        <div class="flash-sigla" id="backSigla"></div>
+                        <div class="flash-desc" id="backDesc"></div>
+                        <div class="flash-example" id="backExample"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px; font-size: 0.95rem; font-weight: bold; color: #1f4e6e;" id="flashCounter">
+                1 / 24
+            </div>
+
+            <div class="flash-nav">
+                <button id="prevFlash">◀ Anterior</button>
+                <button id="nextFlash">Próxima ▶</button>
+            </div>
+        </div>
+
+        <div id="tabQuiz" class="tab-content">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button id="resetQuizMode" class="mode-reset">🔄 Reiniciar Quiz</button>
+            </div>
+            <div id="scenarioCard" class="scenario-card">Carregando...</div>
+            <div>
+                <button id="hintBtn" class="btn-hint">💡 Dica</button>
+                <div id="hintBox" style="background:#fff8e7; padding:0.5rem 1rem; border-radius:1rem; display:none; margin-top:0.5rem;"></div>
+            </div>
+            <div id="optionsContainer" class="options-grid"></div>
+            <div class="feedback-area">
+                <div id="feedbackMsg" class="feedback-text"></div>
+                <div id="explanationBox" class="explanation"></div>
+                <button id="nextBtn" class="next-btn">➡️ Próxima questão</button>
+            </div>
+            <div class="score-bar">
+                <span>✅ Acertos: <span id="hitsCount">0</span></span>
+                <span>📋 Restantes: <span id="remainingCount">0</span></span>
+            </div>
+        </div>
+
+        <div id="tabAssoc" class="tab-content">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button id="resetAssocMode" class="mode-reset">🔄 Reiniciar Associação</button>
+            </div>
+            <div id="assocQuestion" class="scenario-card" style="background:#f0f6fa;">
+                Qual é o significado da sigla <strong id="assocSigla">KoT</strong>?
+            </div>
+            <div id="assocOptions" class="options-grid"></div>
+            <div id="assocFeedback" class="feedback-text" style="margin-top: 1rem;"></div>
+            <button id="nextAssoc" class="next-btn" style="display:block; background:#2c7da0;">Próxima associação ➡️</button>
+            <div style="margin-top: 12px; font-size:0.8rem; text-align:center;">
+                Acertos: <span id="assocHits">0</span> / <span id="assocTotal">0</span>
+            </div>
+        </div>
+
+        <div id="tabComparativo" class="tab-content">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button id="resetCompMode" class="mode-reset">🔄 Reiniciar</button>
+            </div>
+            <div id="compQuestion" class="scenario-card">
+                <strong>📌 Conceito:</strong> <span id="compConcept">Transposição Didática (Chevallard)</span>
+            </div>
+            <div id="compOptions" class="options-grid"></div>
+            <div id="compFeedback" class="feedback-text" style="margin-top: 1rem;"></div>
+            <button id="nextComp" class="next-btn" style="display:block; background:#2c7da0;">Próximo conceito ➡️</button>
+            <div style="margin-top: 12px; font-size:0.8rem; text-align:center;">
+                Acertos: <span id="compHits">0</span> / <span id="compTotal">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="theory-panel">
+        <div class="theory-header">📖 Teoria completa (baseada nos PDFs)</div>
+        <div class="theory-content">
+            <div class="concept-grid">
+                <div class="concept-card"><strong>🧩 MTSK (Carrillo, 2013)</strong><br>KoT, KSM, KPM, KFLM, KMT, KMLS – Conhecimento matemático e didático especializado.</div>
+                <div class="concept-card"><strong>📐 MKT (Ball, Thames & Phelps, 2008)</strong><br>CCK, SCK, KCS, KCT, KC, HCK – Conhecimento matemático para o ensino.</div>
+                <div class="concept-card"><strong>👨‍🏫 Shulman (1987)</strong><br>PCK (Pedagogical Content Knowledge) – conhecimento didático do conteúdo.</div>
+                <div class="concept-card"><strong>🔄 Transposição didática (Chevallard)</strong><br>Saber sábio → saber a ensinar → saber ensinado. Vigilância epistemológica.</div>
+                <div class="concept-card"><strong>🏫 Construção autônoma (Chervel)</strong><br>Disciplina escolar como criação endógena da escola, não mera adaptação.</div>
+                <div class="concept-card"><strong>⚙️ TPACK (Mishra & Koehler)</strong><br>CK, PK, TK, PCK, TCK, TPK, TPACK – Integração tecnologia, pedagogia e conteúdo.</div>
+                <div class="concept-card"><strong>🎓 Acadêmica vs Escolar</strong><br>Rigor vs acessibilidade; demonstração vs argumentação; erro lógico vs erro pedagógico.</div>
+                <div class="concept-card"><strong>❌ "Não saberes" (Moreira & David)</strong><br>Lacunas da formação que a prática por si só não resolve (ex: decimais).</div>
+                <div class="concept-card"><strong>🔍 Vigilância epistemológica (Chevallard)</strong><br>Monitoramento crítico para evitar distorções conceituais na transposição didática.</div>
+                <div class="concept-card"><strong>🧠 Componentes cognitivas do TPACK (Niess)</strong><br>Conceções, Currículo, Aprendizagem, Ensino – como integrar tecnologia.</div>
+            </div>
+            <div class="gold-dicas">
+                💡 <strong>Dicas de ouro:</strong><br>
+                • KoT = conteúdo puro | KSM = conexões | KPM = demonstração<br>
+                • KFLM = foco no aluno | KMT = estratégias | KMLS = currículo<br>
+                • CCK = comum | SCK = especializado | KCS = alunos+conteúdo<br>
+                • TCK = tecnologia+conteúdo | TPK = tecnologia+pedagogia
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="app-footer">
+    Desenvolvido por Prof. Sergio Eric | Instagram: <a href="https://instagram.com/prof.sergio.eric.matematica" target="_blank">@prof.sergio.eric.matematica</a> | 2026
+</footer>
+
+<script>
+    // ===================== DADOS COMPLETOS =====================
+    const siglasData = [
+        { sigla: "KoT", nome: "Knowledge of Topics", desc: "Domínio do conteúdo matemático: algoritmos, propriedades, fenomenologia.", exemplo: "Resolver equações do 2º grau." },
+        { sigla: "KSM", nome: "Knowledge of Structure", desc: "Conexões entre diferentes áreas da matemática.", exemplo: "Funções e PA são a mesma ideia." },
+        { sigla: "KPM", nome: "Knowledge of Practices", desc: "Validação, demonstrações, axiomas.", exemplo: "Não basta testar exemplos, precisa de prova." },
+        { sigla: "KFLM", nome: "Knowledge of Features of Learning", desc: "Erros típicos, obstáculos didáticos.", exemplo: "Antecipar soma errada de frações." },
+        { sigla: "KMT", nome: "Knowledge of Mathematics Teaching", desc: "Estratégias, jogos, analogias.", exemplo: "Criar jogo digital para estatística." },
+        { sigla: "KMLS", nome: "Knowledge of Learning Standards", desc: "Currículos oficiais (BNCC), ementas.", exemplo: "Ler Currículo Paulista." },
+        { sigla: "CCK", nome: "Common Content Knowledge", desc: "Conhecimento matemático comum a qualquer adulto.", exemplo: "Calcular 15% de um valor." },
+        { sigla: "SCK", nome: "Specialized Content Knowledge", desc: "Conhecimento específico do professor para ensinar.", exemplo: "Explicar por que 0,999... = 1." },
+        { sigla: "KCS", nome: "Knowledge of Content and Students", desc: "Conhecimento sobre como alunos aprendem um conteúdo.", exemplo: "Saber que confundem média, mediana e moda." },
+        { sigla: "KCT", nome: "Knowledge of Content and Teaching", desc: "Estratégias de ensino para conteúdos específicos.", exemplo: "Escolher melhor sequência de exemplos." },
+        { sigla: "KC", nome: "Knowledge of Curriculum", desc: "Conhecimento sobre materiais curriculares.", exemplo: "Saber a ordem dos tópicos no livro." },
+        { sigla: "HCK", nome: "Horizon Content Knowledge", desc: "Visão conectada da matemática (avançado com básico).", exemplo: "Limite fundamenta derivada." },
+        { sigla: "CK", nome: "Content Knowledge", desc: "Conhecimento do conteúdo (similar KoT).", exemplo: "Teorema de Pitágoras." },
+        { sigla: "PK", nome: "Pedagogical Knowledge", desc: "Métodos gerais de ensino.", exemplo: "Ensino exploratório." },
+        { sigla: "TK", nome: "Technological Knowledge", desc: "Habilidade para operar tecnologias.", exemplo: "Usar GeoGebra." },
+        { sigla: "PCK", nome: "Pedagogical Content Knowledge", desc: "Conhecimento didático do conteúdo (Shulman).", exemplo: "Analogia da pizza para frações." },
+        { sigla: "TCK", nome: "Technological Content Knowledge", desc: "Tecnologia para representar conteúdo.", exemplo: "GeoGebra liga álgebra e geometria." },
+        { sigla: "TPK", nome: "Technological Pedagogical Knowledge", desc: "Tecnologia para estratégias pedagógicas.", exemplo: "Investigação com TinkerPlots." },
+        { sigla: "TPACK", nome: "TPACK", desc: "Integração profunda tecnologia, pedagogia e conteúdo.", exemplo: "Aula de função quadrática com GeoGebra." },
+        { sigla: "Transposição Didática", nome: "Chevallard", desc: "Saber sábio → saber ensinado. Vigilância epistemológica.", exemplo: "Número real vira 'número com vírgula'." },
+        { sigla: "Construção Autônoma", nome: "Chervel", desc: "Disciplina escolar criada pela escola, não mera adaptação.", exemplo: "Matemática escolar tem finalidade formativa própria." },
+        { sigla: "Não Saberes", nome: "Moreira & David", desc: "Lacunas da formação que a prática não resolve.", exemplo: "Professor que não entende a importância dos decimais." },
+        { sigla: "Vigilância Epistemológica", nome: "Chevallard", desc: "Monitoramento crítico para evitar distorções conceituais na transposição didática.", exemplo: "Garantir que o conceito de número real não perca seu significado ao ser ensinado." },
+        { sigla: "Componentes Cognitivas TPACK", nome: "Niess", desc: "Conceções, currículo, aprendizagem e ensino para integrar tecnologia.", exemplo: "Planejar aula com tecnologia considerando os quatro aspectos." }
+    ];
+
+    // ===================== QUIZ =====================
+    const quizQuestions = [
+        { text: "Você resolve no quadro uma equação do 2º grau e domina perfeitamente as regras de sinais e propriedades das raízes.", correct: "KoT", options: ["KoT", "KMT", "KFLM", "KSM"], hint: "Domínio do conteúdo em si.", explanation: "KoT – conhecimento dos tópicos matemáticos puros (MTSK)." },
+        { text: "Cria um jogo digital temático de exploração de dados para aumentar o engajamento nas aulas de estatística.", correct: "KMT", options: ["KMT", "KoT", "KMLS", "TPK"], hint: "Estratégia de ensino lúdica.", explanation: "KMT – conhecimento do ensino da matemática." },
+        { text: "Antes da aula de frações, prevê que alunos vão somar numeradores e denominadores (1/2+1/3 = 2/5).", correct: "KFLM", options: ["KFLM", "KPM", "KCS", "KoT"], hint: "Antecipar erro típico do aluno.", explanation: "KFLM – foco nos erros e obstáculos cognitivos." },
+        { text: "Lê o Currículo Paulista para saber quais habilidades de Geometria no 8º ano.", correct: "KMLS", options: ["KMLS", "KC", "KCT", "KSM"], hint: "Documentos oficiais.", explanation: "KMLS – conhecimento dos padrões de aprendizagem." },
+        { text: "Ensina que não basta testar exemplos; é preciso dedução lógica para provar um teorema.", correct: "KPM", options: ["KPM", "KoT", "PCK", "TPACK"], hint: "Validação matemática.", explanation: "KPM – conhecimento da prática matemática." },
+        { text: "Mostra que funções afim (y=ax+b) é a mesma ideia das Progressões Aritméticas (P.A.).", correct: "KSM", options: ["KSM", "KoT", "HCK", "CCK"], hint: "Conexão entre tópicos.", explanation: "KSM – conhecimento da estrutura da matemática." },
+        { text: "Um professor sabe calcular 15% de um valor (habilidade comum a qualquer adulto).", correct: "CCK", options: ["CCK", "SCK", "KCS", "CK"], hint: "Conhecimento matemático comum.", explanation: "CCK – Common Content Knowledge (MKT)." },
+        { text: "Professor explica por que 0,999... = 1 usando argumentos matemáticos específicos da docência.", correct: "SCK", options: ["SCK", "CCK", "KCT", "PCK"], hint: "Conhecimento especializado do professor.", explanation: "SCK – Specialized Content Knowledge." },
+        { text: "Professor sabe que alunos confundem média, mediana e moda, e prepara atividades específicas.", correct: "KCS", options: ["KCS", "KCT", "KFLM", "KMT"], hint: "Conhecimento do conteúdo e dos alunos.", explanation: "KCS – Knowledge of Content and Students." },
+        { text: "Usa GeoGebra para ensinar geometria plana, conectando álgebra e geometria.", correct: "TCK", options: ["TCK", "TPK", "TPACK", "TK"], hint: "Tecnologia + Conteúdo", explanation: "TCK – como a tecnologia representa o conteúdo." },
+        { text: "Organiza alunos em duplas para investigar dados com TinkerPlots, incentivando hipóteses.", correct: "TPK", options: ["TPK", "TCK", "PK", "TPACK"], hint: "Tecnologia + Pedagogia", explanation: "TPK – estruturar atividade investigativa com tecnologia." },
+        { text: "Planeja uma aula de função quadrática onde alunos usam GeoGebra para variar parâmetros e discutir efeitos.", correct: "TPACK", options: ["TPACK", "TCK", "TPK", "PCK"], hint: "Integração total", explanation: "TPACK – integração profunda entre tecnologia, pedagogia e conteúdo." },
+        { text: "Transformação do saber sábio (acadêmico) em saber ensinado (escolar) com vigilância epistemológica.", correct: "Transposição Didática", options: ["Transposição Didática", "Construção Autônoma", "Não Saberes", "PCK"], hint: "Chevallard", explanation: "Transposição didática – conceito central de Chevallard." },
+        { text: "Disciplina escolar é criada pela escola, para a escola, com lógica própria, não apenas adaptação da ciência.", correct: "Construção Autônoma", options: ["Construção Autônoma", "Transposição Didática", "Não Saberes", "KMLS"], hint: "Chervel", explanation: "Construção autônoma – visão de Chervel." },
+        { text: "Lacunas na formação inicial que a prática por si só não consegue suprir (ex: decimais).", correct: "Não Saberes", options: ["Não Saberes", "KFLM", "KCS", "SCK"], hint: "Moreira & David", explanation: "Não saberes – conceito de Moreira e David." },
+        { text: "Monitoramento crítico para evitar distorções conceituais ao transformar saber científico em saber escolar.", correct: "Vigilância Epistemológica", options: ["Vigilância Epistemológica", "Transposição Didática", "Construção Autônoma", "PCK"], hint: "Chevallard", explanation: "Vigilância epistemológica – essencial na transposição didática para manter a integridade do conceito." },
+        { text: "Componente do TPACK que envolve as crenças do professor sobre integrar tecnologia no ensino de matemática.", correct: "Conceições", options: ["Conceições", "Currículo", "Aprendizagem", "Ensino"], hint: "Primeira componente cognitiva de Niess.", explanation: "Conceições – crenças sobre o propósito e valor da tecnologia na educação matemática." },
+        { text: "Componente do TPACK que trata de como a tecnologia influencia o currículo e os materiais curriculares.", correct: "Currículo", options: ["Currículo", "Conceições", "Aprendizagem", "Ensino"], hint: "Segunda componente de Niess.", explanation: "Currículo – conhecimento sobre integração da tecnologia no currículo escolar." },
+        { text: "Componente do TPACK focada em como os alunos aprendem matemática quando usam tecnologia.", correct: "Aprendizagem", options: ["Aprendizagem", "Conceições", "Currículo", "Ensino"], hint: "Terceira componente de Niess.", explanation: "Aprendizagem – compreensão do pensamento do aluno mediado por tecnologia." },
+        { text: "Componente do TPACK que envolve estratégias específicas para ensinar matemática com tecnologia.", correct: "Ensino", options: ["Ensino", "Conceições", "Currículo", "Aprendizagem"], hint: "Quarta componente de Niess.", explanation: "Ensino – conhecimento de metodologias e estratégias com integração tecnológica." }
+    ];
+
+    // ===================== FLASHCARDS =====================
+    let flashIndex = 0, isFlipped = false;
+    const flashContainer = document.getElementById('flashcard3d');
+    const frontSigla = document.getElementById('frontSigla');
+    const backSigla = document.getElementById('backSigla');
+    const backDesc = document.getElementById('backDesc');
+    const backExample = document.getElementById('backExample');
+    const flashCounter = document.getElementById('flashCounter');
+
+    function updateFlash() {
+        const item = siglasData[flashIndex % siglasData.length];
+        frontSigla.innerText = item.sigla;
+        backSigla.innerText = `${item.sigla} – ${item.nome}`;
+        backDesc.innerText = item.desc;
+        backExample.innerText = `📘 Exemplo: ${item.exemplo}`;
+        
+        flashCounter.innerText = `${flashIndex + 1} / ${siglasData.length}`;
+
+        if (isFlipped) { flashContainer.classList.remove('flipped'); isFlipped = false; }
+    }
+    
+    function flipCard() { flashContainer.classList.toggle('flipped'); isFlipped = !isFlipped; }
+    function prevFlash() { flashIndex = (flashIndex - 1 + siglasData.length) % siglasData.length; updateFlash(); }
+    function nextFlash() { flashIndex = (flashIndex + 1) % siglasData.length; updateFlash(); }
+    function resetFlash() { flashIndex = 0; updateFlash(); if(isFlipped) flipCard(); }
+    
+    document.getElementById('prevFlash').onclick = prevFlash;
+    document.getElementById('nextFlash').onclick = nextFlash;
+    document.getElementById('resetFlashMode').onclick = resetFlash;
+    flashContainer.onclick = flipCard;
+    
+    updateFlash();
+
+    // ===================== QUIZ LOGIC =====================
+    let quizCurrent = 0, quizHits = 0, quizAnswered = false;
+    const quizTotal = quizQuestions.length;
+    const scenarioDiv = document.getElementById('scenarioCard');
+    const optionsDiv = document.getElementById('optionsContainer');
+    const hintBtn = document.getElementById('hintBtn');
+    const hintBox = document.getElementById('hintBox');
+    const feedbackMsg = document.getElementById('feedbackMsg');
+    const explanationBox = document.getElementById('explanationBox');
+    const nextBtn = document.getElementById('nextBtn');
+    const hitsSpan = document.getElementById('hitsCount');
+    const remainingSpan = document.getElementById('remainingCount');
+    const resetQuizBtn = document.getElementById('resetQuizMode');
+
+    function buildQuizOptions(optArray) {
+        optionsDiv.innerHTML = "";
+        optArray.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkQuizAnswer(opt);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function loadQuiz() {
+        quizAnswered = false;
+        const q = quizQuestions[quizCurrent];
+        scenarioDiv.innerHTML = q.text;
+        feedbackMsg.innerHTML = "";
+        explanationBox.style.display = "none";
+        hintBox.style.display = "none";
+        nextBtn.style.display = "none";
+        hintBtn.disabled = false;
+        buildQuizOptions(q.options);
+        remainingSpan.innerText = quizTotal - quizCurrent;
+        hitsSpan.innerText = quizHits;
+        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false);
+    }
+
+    function checkQuizAnswer(selected) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        const q = quizQuestions[quizCurrent];
+        const isCorrect = (selected === q.correct);
+        if (isCorrect) {
+            feedbackMsg.innerHTML = `✅ Correto! "${selected}" é a resposta certa.`;
+            feedbackMsg.style.color = "#1f7a5a";
+            quizHits++;
+            hitsSpan.innerText = quizHits;
+        } else {
+            feedbackMsg.innerHTML = `❌ Incorreto. A resposta certa é "${q.correct}".`;
+            feedbackMsg.style.color = "#c0392b";
+        }
+        explanationBox.innerHTML = `<strong>📖 Explicação:</strong><br>${q.explanation}<br><br><strong>🔍 Dica:</strong> ${q.hint}`;
+        explanationBox.style.display = "block";
+        nextBtn.style.display = "block";
+        hintBtn.disabled = true;
+        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+    }
+
+    function nextQuiz() {
+        if (!quizAnswered) return;
+        quizCurrent++;
+        if (quizCurrent < quizTotal) loadQuiz();
+        else {
+            scenarioDiv.innerHTML = `🏆 Concluído! Acertos: ${quizHits}/${quizTotal}. Refaça para fixar.`;
+            optionsDiv.innerHTML = "";
+            nextBtn.style.display = "none";
+            feedbackMsg.innerHTML = "";
+            explanationBox.style.display = "none";
+            remainingSpan.innerText = "0";
+        }
+    }
+    function resetQuiz() { quizCurrent = 0; quizHits = 0; quizAnswered = false; loadQuiz(); }
+    hintBtn.onclick = () => { if (!quizAnswered) { hintBox.innerHTML = `💡 ${quizQuestions[quizCurrent].hint}`; hintBox.style.display = "block"; } };
+    nextBtn.onclick = nextQuiz;
+    resetQuizBtn.onclick = resetQuiz;
+    loadQuiz();
+
+    // ===================== ASSOCIAÇÃO LOGIC =====================
+    let assocIndex = 0, assocHits = 0, assocAnsweredFlag = false;
+    const assocSiglaSpan = document.getElementById('assocSigla');
+    const assocOptionsDiv = document.getElementById('assocOptions');
+    const assocFeedback = document.getElementById('assocFeedback');
+    const nextAssocBtn = document.getElementById('nextAssoc');
+    const assocHitsSpan = document.getElementById('assocHits');
+    const assocTotalSpan = document.getElementById('assocTotal');
+    const resetAssocBtn = document.getElementById('resetAssocMode');
+    const assocList = [...siglasData];
+    assocTotalSpan.innerText = assocList.length;
+
+    function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+    function loadAssociation() {
+        assocAnsweredFlag = false;
+        const current = assocList[assocIndex];
+        assocSiglaSpan.innerText = current.sigla;
+        let otherDefs = assocList.filter(item => item.sigla !== current.sigla).map(item => item.desc);
+        otherDefs = shuffleArray([...otherDefs]).slice(0, 3);
+        let options = [current.desc, ...otherDefs];
+        options = shuffleArray(options);
+        assocOptionsDiv.innerHTML = "";
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.style.whiteSpace = "normal"; btn.style.wordBreak = "break-word"; btn.style.textAlign = "left";
+            btn.onclick = () => checkAssociation(opt, current.desc);
+            assocOptionsDiv.appendChild(btn);
+        });
+        assocFeedback.innerHTML = "";
+    }
+    function checkAssociation(selected, correctDesc) {
+        if (assocAnsweredFlag) return;
+        assocAnsweredFlag = true;
+        if (selected === correctDesc) { assocFeedback.innerHTML = "✅ Correta!"; assocFeedback.style.color = "#1f7a5a"; assocHits++; }
+        else { assocFeedback.innerHTML = `❌ Errado. Correta: "${correctDesc}"`; assocFeedback.style.color = "#c0392b"; }
+        assocHitsSpan.innerText = assocHits;
+        document.querySelectorAll('#assocOptions .option-btn').forEach(btn => btn.disabled = true);
+    }
+    function nextAssociation() {
+        if (!assocAnsweredFlag && !confirm("Pular sem responder?")) return;
+        assocIndex = (assocIndex + 1) % assocList.length;
+        if (assocIndex === 0) { assocHits = 0; assocHitsSpan.innerText = "0"; assocFeedback.innerHTML = "🔄 Ciclo reiniciado!"; }
+        loadAssociation();
+    }
+    function resetAssoc() { assocIndex = 0; assocHits = 0; assocAnsweredFlag = false; assocHitsSpan.innerText = "0"; loadAssociation(); }
+    nextAssocBtn.onclick = nextAssociation;
+    resetAssocBtn.onclick = resetAssoc;
+    loadAssociation();
+
+    // ===================== COMPARATIVO LOGIC =====================
+    const comparativoData = [
+        { conceito: "Transposição Didática (Chevallard)", definicao: "Transformação do saber acadêmico em saber escolar, sujeito a vigilância epistemológica." },
+        { conceito: "Construção Autônoma (Chervel)", definicao: "Disciplina escolar é criação endógena da escola, com lógica própria." },
+        { conceito: "Matemática Acadêmica", definicao: "Rigor lógico-dedutivo, demonstrações formais, estruturas abstratas." },
+        { conceito: "Matemática Escolar", definicao: "Saberes validados para educação básica, com foco na compreensão do aluno." },
+        { conceito: "Papel do erro na Academia", definicao: "Erro é fenômeno lógico que indica contradição com fato verdadeiro." },
+        { conceito: "Papel do erro na Escola", definicao: "Erro é indicador didático-pedagógico, fundamental para o planejamento." },
+        { conceito: "Conhecimento do Professor", definicao: "Prático, orientado à ação, validado pela eficácia em sala de aula." },
+        { conceito: "Conhecimento do Pesquisador", definicao: "Teórico, formal, validado pela coerência lógica e conceitual." },
+        { conceito: "Vigilância Epistemológica", definicao: "Monitoramento crítico para evitar distorções conceituais na transposição didática." },
+        { conceito: "Não Saberes (decimais)", definicao: "Professor que vê decimal apenas como representação, sem entender sua centralidade na escola." }
+    ];
+    let compIndex = 0, compHits = 0, compAnsweredFlag = false;
+    const compConceptSpan = document.getElementById('compConcept');
+    const compOptionsDiv = document.getElementById('compOptions');
+    const compFeedback = document.getElementById('compFeedback');
+    const nextCompBtn = document.getElementById('nextComp');
+    const compHitsSpan = document.getElementById('compHits');
+    const compTotalSpan = document.getElementById('compTotal');
+    const resetCompBtn = document.getElementById('resetCompMode');
+    compTotalSpan.innerText = comparativoData.length;
+    
+    function loadComparativo() {
+        compAnsweredFlag = false;
+        const current = comparativoData[compIndex];
+        compConceptSpan.innerText = current.conceito;
+        let otherDefs = comparativoData.filter(item => item.conceito !== current.conceito).map(item => item.definicao);
+        otherDefs = shuffleArray([...otherDefs]).slice(0, 3);
+        let options = [current.definicao, ...otherDefs];
+        options = shuffleArray(options);
+        compOptionsDiv.innerHTML = "";
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkComparativo(opt, current.definicao);
+            compOptionsDiv.appendChild(btn);
+        });
+        compFeedback.innerHTML = "";
+    }
+    function checkComparativo(selected, correct) {
+        if (compAnsweredFlag) return;
+        compAnsweredFlag = true;
+        if (selected === correct) { compFeedback.innerHTML = "✅ Correta!"; compFeedback.style.color = "#1f7a5a"; compHits++; }
+        else { compFeedback.innerHTML = `❌ Errado. Definição: "${correct}"`; compFeedback.style.color = "#c0392b"; }
+        compHitsSpan.innerText = compHits;
+        document.querySelectorAll('#compOptions .option-btn').forEach(btn => btn.disabled = true);
+    }
+    function nextComparativo() {
+        if (!compAnsweredFlag && !confirm("Pular?")) return;
+        compIndex = (compIndex + 1) % comparativoData.length;
+        if (compIndex === 0) { compHits = 0; compHitsSpan.innerText = "0"; compFeedback.innerHTML = "🔄 Reiniciado!"; }
+        loadComparativo();
+    }
+    function resetComparativo() { compIndex = 0; compHits = 0; compAnsweredFlag = false; compHitsSpan.innerText = "0"; loadComparativo(); }
+    nextCompBtn.onclick = nextComparativo;
+    resetCompBtn.onclick = resetComparativo;
+    loadComparativo();
+
+    // TABS LOGIC
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+            contents.forEach(c => c.classList.remove('active-tab'));
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`).classList.add('active-tab');
+        });
+    });
+</script>
+</body>
+</html>

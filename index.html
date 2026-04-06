@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Práticas para o Ensino de Matemática I - Univesp</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: #eef2f8;
+            color: #1a2c3e;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ESTILOS DO CABEÇALHO */
+        .app-header {
+            text-align: center;
+            padding: 40px 16px 20px;
+        }
+        .app-header h1 {
+            color: #1f4e6e;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        /* CONTAINER DO MENU */
+        .menu-container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ESTILOS DOS BOTÕES (CARDS) */
+        .menu-btn {
+            background: white;
+            border-radius: 1rem;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: #1f4e6e;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-left: 6px solid #2c7da0;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background: #f8fafc;
+        }
+
+        /* Ícone numérico ao lado de cada botão */
+        .menu-icon {
+            background: #e2edf2;
+            color: #2c7da0;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* ESTILOS DO RODAPÉ */
+        .app-footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 40px 16px 24px;
+            font-size: 0.95rem;
+            color: #334155;
+            font-weight: 500;
+        }
+        .app-footer a {
+            color: #1f7a5a;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .app-footer a:hover {
+            color: #145940;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+            .menu-btn {
+                font-size: 1rem;
+                padding: 16px;
+            }
+            .menu-icon {
+                min-width: 40px;
+                height: 40px;
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>Práticas para o Ensino de Matemática I - Univesp</h1>
+    </header>
+
+    <main class="menu-container">
+        
+        <a href="semana1.html" class="menu-btn">
+            <div class="menu-icon">1</div>
+            <div>Semana 1 - Práticas para o ensino de matemática I: entre concepções matemáticas e práticas pedagógicas</div>
+        </a>
+
+        <a href="semana2.html" class="menu-btn">
+            <div class="menu-icon">2</div>
+            <div>Semana 2 - O professor que ensina matemática hoje e a importância de seus conhecimentos profissionais</div>
+        </a>
+
+        <a href="semana3.html" class="menu-btn">
+            <div class="menu-icon">3</div>
+            <div>Semana 3 - O sentido dos números e das operações no currículo e nas práticas pedagógicas dos professores</div>
+        </a>
+
+        <a href="semana4.html" class="menu-btn">
+            <div class="menu-icon">4</div>
+            <div>Semana 4 - Pensamento algébrico e álgebra no decorrer do currículo e suas implicações nas práticas pedagógicas dos professores</div>
+        </a>
+
+        <a href="semana5.html" class="menu-btn">
+            <div class="menu-icon">5</div>
+            <div>Semana 5 - Conceitos e propriedades da geometria na educação básica e suas implicações nas práticas pedagógicas</div>
+        </a>
+
+        <a href="semana6.html" class="menu-btn">
+            <div class="menu-icon">6</div>
+            <div>Semana 6 - Estudos e práticas pedagógicas de grandezas e medidas</div>
+        </a>
+
+        <a href="semana7.html" class="menu-btn">
+            <div class="menu-icon">7</div>
+            <div>Semana 7 - Problematizações em contextos de probabilidade e estatística que refletem nas práticas pedagógicas</div>
+        </a>
+
+    </main>
+
+    <footer class="app-footer">
+        Desenvolvido por Prof. Sergio Eric | Instagram: <a href="https://instagram.com/prof.sergio.eric.matematica" target="_blank">@prof.sergio.eric.matematica</a> | 2026
+    </footer>
+
+</body>
+</html>
