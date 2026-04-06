@@ -20,6 +20,30 @@
             min-height: 100vh;
         }
 
+/* Estilo para o aviso de construção */
+.badge-construcao {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 4px;
+    font-weight: normal;
+}
+
+/* Estilo para botões desativados */
+.menu-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #f1f5f9; /* Tom mais cinza */
+    border-left-color: #cbd5e1; /* Borda neutra */
+}
+
+.menu-btn.disabled:hover {
+    transform: none; /* Remove a animação de subir */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+
         /* ESTILOS DO CABEÇALHO */
         .app-header {
             text-align: center;
@@ -135,12 +159,14 @@
             <div>Semana 2 - O professor que ensina matemática hoje e a importância de seus conhecimentos profissionais</div>
         </a>
 
-        <a href="semana3.html" class="menu-btn">
+        <!-- <a href="semana3.html" class="menu-btn">
             <div class="menu-icon">3</div>
             <div>Semana 3 - O sentido dos números e das operações no currículo e nas práticas pedagógicas dos professores</div>
-        </a>
+        </a> -->
 
-        <a href="semana4.html" class="menu-btn">
+ 
+
+        <!-- <a href="semana4.html" class="menu-btn">
             <div class="menu-icon">4</div>
             <div>Semana 4 - Pensamento algébrico e álgebra no decorrer do currículo e suas implicações nas práticas pedagógicas dos professores</div>
         </a>
@@ -159,6 +185,47 @@
             <div class="menu-icon">7</div>
             <div>Semana 7 - Problematizações em contextos de probabilidade e estatística que refletem nas práticas pedagógicas</div>
         </a>
+    -->
+
+           <a href="javascript:void(0)" class="menu-btn disabled">
+                <div class="menu-icon">3</div>
+                <div>
+                    Semana 3 - O sentido dos números e das operações no currículo e nas práticas pedagógicas dos professores
+                    <span class="badge-construcao">Página em construção</span>
+                </div>
+            </a>
+
+           <a href="javascript:void(0)" class="menu-btn disabled">
+                <div class="menu-icon">4</div>
+                <div>
+                    Semana 4 - Pensamento algébrico e álgebra no decorrer do currículo e suas implicações nas práticas pedagógicas dos professores
+                    <span class="badge-construcao">Página em construção</span>
+                </div>
+            </a>
+
+           <a href="javascript:void(0)" class="menu-btn disabled">
+                <div class="menu-icon">5</div>
+                <div>
+                    Semana 5 - Conceitos e propriedades da geometria na educação básica e suas implicações nas práticas pedagógicas
+                    <span class="badge-construcao">Página em construção</span>
+                </div>
+            </a>
+
+           <a href="javascript:void(0)" class="menu-btn disabled">
+                <div class="menu-icon">5</div>
+                <div>
+                    Semana 6 - Estudos e práticas pedagógicas de grandezas e medidas
+                    <span class="badge-construcao">Página em construção</span>
+                </div>
+            </a>
+
+           <a href="javascript:void(0)" class="menu-btn disabled">
+                <div class="menu-icon">5</div>
+                <div>
+                    Semana 7 - Problematizações em contextos de probabilidade e estatística que refletem nas práticas pedagógicas
+                    <span class="badge-construcao">Página em construção</span>
+                </div>
+            </a>
 
     </main>
 
