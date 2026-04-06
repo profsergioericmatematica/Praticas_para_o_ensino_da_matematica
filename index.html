@@ -20,34 +20,27 @@
             min-height: 100vh;
         }
 
-        /* -----------------------------------------------------------
-           NOVO: ANIMAÇÃO PARA PISCAR (Blinking)
-           ----------------------------------------------------------- */
-/* Animação mais agressiva para chamar atenção */
-@keyframes piscar-alerta {
-    0% { background-color: #fff3cd; }
-    50% { background-color: #ffeb3b; transform: scale(1.01); } /* Muda o tom e cresce levemente */
-    100% { background-color: #fff3cd; }
-}
+/* ANIMAÇÃO CORRIGIDA */
+/* ANIMAÇÃO CORRIGIDA */
+        @keyframes piscar-alerta {
+            0% { background-color: #fff3cd; }
+            50% { background-color: #ffeb3b; transform: scale(1.01); }
+            100% { background-color: #fff3cd; }
+        }
 
-.alerta-oficial {
-    max-width: 800px;
-    margin: 20px auto 0;
-    padding: 15px 20px;
-    background-color: #fff3cd;
-    border: 2px solid #ffc107; /* Borda completa para destacar */
-    color: #856404;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    text-align: center; /* Centraliza o texto do aviso */
-    
-    /* Aplicação reforçada */
-    animation: piscar-alerta 1s infinite ease-in-out;
-}
-            
-            /* APLICAÇÃO DA ANIMAÇÃO */
-            animation: piscar 1.5s infinite; /* Pisca a cada 1.5s, para sempre */
+        .alerta-oficial {
+            max-width: 800px;
+            margin: 20px auto 0;
+            padding: 15px 20px;
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: center;
+            /* Aplicação da animação */
+            animation: piscar-alerta 1s infinite ease-in-out;
         }
 
         .alerta-oficial strong {
@@ -172,7 +165,7 @@
     </header>
 
 <section class="alerta-oficial">
-    <strong>⚠️ Atenção:</strong> Este projeto foi criado por aluno da disciplina, sendo uma ferramenta de estudo <strong>complementar</strong> e independente. Ele não substitui o material oficial (videoaulas e textos base) disponibilizado no <a href="https://ava.univesp.br" target="_blank">Ambiente Virtual de Aprendizagem (AVA)</a> da Univesp.
+    <strong>⚠️ Atenção:</strong> Este projeto foi criado por um aluno da disciplina (assim como você!) e funciona como uma ferramenta de estudo <strong>complementar e independente</strong>. Ele não substitui o material oficial disponibilizado no <a href="https://ava.univesp.br" target="_blank">Ambiente Virtual de Aprendizagem (AVA)</a> da Univesp. Encontrou algum erro? Mande sua sugestão!
 </section>
 
     <main class="menu-container">
