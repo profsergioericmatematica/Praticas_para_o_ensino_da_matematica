@@ -33,11 +33,13 @@ Atividade rápida para relacionar definições a seus respectivos conceitos ou a
 Exercícios de classificação específicos para cada semana:
 - **Semana 1:** Discursos Economicista vs. Crítico sobre avaliações em larga escala.
 - **Semana 2:** Conceitos de Matemática Acadêmica vs. Escolar, Transposição Didática, Construção Autônoma, entre outros.
+- **Semana 3:** Afirmações sobre algoritmos tradicionais vs. estratégias de decomposição (classificar como Verdadeiro ou Falso, com justificativa).
 
 ### 🧠 Mapa Interativo (NOVO!)
 Um sistema de **botões clicáveis** que exibe, sob demanda, conteúdos detalhados sobre cada tópico da semana.  
 - **Semana 1:** botões para Tataravô, Bisavô, Avô, Pai, todas as tendências pedagógicas (Formalista Clássica, Empírico-Ativista, etc.), SAEB, TIMSS 2023, discursos sobre avaliação, Escuta Nacional de Professores (2025) e Políticas Públicas (PNE).  
 - **Semana 2:** botões para Matemática Acadêmica vs. Escolar, Transposição Didática, Construção Autônoma, Professor vs. Pesquisador, Modelos Shulman, MKT, MTSK, TPACK, Saberes da Ação Pedagógica e Não Saberes.  
+- **Semana 3:** botões para Sistema de Numeração Decimal (propriedades posicional, multiplicativa, aditiva), sentidos do número (cardinal, ordinal, medida, nominal, estimativa), sentidos da adição (juntar, acrescentar), subtração (retirar, completar, comparar), multiplicação (parcelas iguais, configuração retangular, combinatória), divisão (partilha equitativa, medida), algoritmo tradicional vs. decomposição, tampinhas coloridas, material dourado e ábaco.
 
 **Diferencial:** Cada clique **substitui** o conteúdo exibido anteriormente (não acumula), mantendo a área de visualização sempre limpa e focada no último tópico selecionado. Não há botão de "limpar" – a própria substituição já organiza o estudo por tópico.
 
@@ -70,9 +72,13 @@ projeto/
 
 |-- semana2.html
 
+|-- semana3.html
+
 |-- SEP401_apostila_semana1.pdf
 
 |-- SEP401_apostila_semana2.pdf
+
+|-- SEP401_apostila_semana3.pdf
 
 |-- README.md
 
